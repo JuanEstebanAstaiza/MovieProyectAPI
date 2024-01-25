@@ -32,5 +32,3 @@ func GetMovieDetails(w http.ResponseWriter, r *http.Request) {
 func GetMostViewedMovies(w http.ResponseWriter, r *http.Request) {
 	// Implementar lógica para obtener las n películas más visualizadas desde services/movie_service.go
 }
-
-// Puedes agregar más controladores según las necesidades
