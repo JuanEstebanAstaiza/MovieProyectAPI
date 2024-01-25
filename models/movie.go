@@ -1,24 +1,33 @@
 package models
 
+// Movie estructura interna de la aplicación
 type Movie struct {
-	ID               int    `json:"id"`
-	Title            string `json:"title"`
-	Overview         string `json:"overview"`
-	ReleaseDate      string `json:"release_date"`
-	OriginalLanguage string `json:"original_language"`
+	ID               *int    `json:"id"`
+	Title            *string `json:"title"`
+	Overview         *string `json:"overview"`
+	ReleaseDate      *string `json:"release_date"`
+	OriginalLanguage *string `json:"original_language"`
+	// Otros campos según sea necesario
 }
 
-type MovieComment struct {
-	ID         int    `json:"id"`
-	UserID     int    `json:"user_id"`
-	MovieID    int    `json:"movie_id"`
-	Comment    string `json:"comment"`
-	CreateTime string `json:"create_time"`
+// ExternalMovie estructura para deserializar datos de la API externa (TMDb)
+type ExternalMovie struct {
+	ID               *int    `json:"id"`
+	Title            *string `json:"title"`
+	Overview         *string `json:"overview"`
+	ReleaseDate      *string `json:"release_date"`
+	OriginalLanguage *string `json:"original_language"`
+	// Otros campos según sea necesario
 }
 
-type User struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+// ConvertFromExternalMovie convierte una ExternalMovie a Movie
+func ConvertFromExternalMovie(externalMovie ExternalMovie) Movie {
+	return Movie{
+		ID:               externalMovie.ID,
+		Title:            externalMovie.Title,
+		Overview:         externalMovie.Overview,
+		ReleaseDate:      externalMovie.ReleaseDate,
+		OriginalLanguage: externalMovie.OriginalLanguage,
+		// Otros campos según sea necesario
+	}
 }

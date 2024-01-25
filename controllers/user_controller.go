@@ -1,12 +1,12 @@
-package Controllers
+package controllers
 
 import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/JuanEstebanAstaiza/MovieProyectAPI/models"
+	"github.com/JuanEstebanAstaiza/MovieProyectAPI/services"
 	"github.com/gorilla/mux"
-	"github.com/your_username/your_project_name/models"
-	"github.com/your_username/your_project_name/services"
 )
 
 func ModifyUserInfo(w http.ResponseWriter, r *http.Request) {

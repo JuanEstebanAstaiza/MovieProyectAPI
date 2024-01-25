@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/your_username/your_project_name/models"
-	"github.com/your_username/your_project_name/services"
+	"github.com/JuanEstebanAstaiza/MovieProyectAPI/models"
+	"github.com/JuanEstebanAstaiza/MovieProyectAPI/services"
 )
 
 func AddComment(w http.ResponseWriter, r *http.Request) {
