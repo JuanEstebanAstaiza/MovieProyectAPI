@@ -1,4 +1,4 @@
-package Model
+package models
 
 type Comment struct {
 	ID         int    `json:"id"`
