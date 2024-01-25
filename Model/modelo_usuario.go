@@ -1,10 +1,13 @@
 package Model
 
-type User struct {
-	UserID   int    `json:"user_id"`
-	Name     string `json:"name"`
-	LastName string `json:"lastname"`
-	Email    string `json:"email"`
+type UserProfile struct {
+	ID       int    `json:"id"`
 	Username string `json:"username"`
-	Gender   string `json:"gender"`
+	Email    string `json:"email"`
+}
+
+// UserCredentials representa las credenciales de inicio de sesión de un usuario
+type UserCredentials struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
