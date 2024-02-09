@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func ModifyUserInfo(w http.ResponseWriter, r *http.Request) {
+func ModifyUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID := params["user_id"]
 

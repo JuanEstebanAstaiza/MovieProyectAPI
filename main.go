@@ -14,12 +14,14 @@ func main() {
 	router := mux.NewRouter()
 
 	// Configurar rutas
-	router.HandleFunc("/api/movie/{movie_id}", controllers.GetMovieDetails()).Methods("GET")
-	router.HandleFunc("/api/most-viewed", controllers.GetMostViewedMovies()).Methods("GET")
-	router.HandleFunc("/api/comment", controllers.AddComment()).Methods("POST")
-	router.HandleFunc("/api/comment", controllers.DeleteComment()).Methods("DELETE")
-	router.HandleFunc("/api/comment", controllers.EditComment()).Methods("PUT")
-	router.HandleFunc("/api/user/{user_id}", controllers.ModifyUserInfo).Methods("PUT")
+	router.HandleFunc("/api/movie/{movie_id}", controllers.GetMovieDetails).Methods("GET")
+	router.HandleFunc("/api/most-viewed", controllers.GetMostViewedMovies).Methods("GET")
+	router.HandleFunc("/api/comment", controllers.AddComment).Methods("POST")
+	router.HandleFunc("/api/comment", controllers.DeleteComment).Methods("DELETE")
+	router.HandleFunc("/api/comment", controllers.EditComment).Methods("PUT")
+	router.HandleFunc("/api/user/{user_id}", controllers.ModifyUser).Methods("PUT")
+	router.HandleFunc("/api/user/register", controllers.RegisterUser).Methods("POST")
+	router.HandleFunc("/api/user/login", controllers.LoginUser).Methods("POST")
 
 	// Iniciar el servidor
 	port := ":8080"
