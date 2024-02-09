@@ -16,7 +16,7 @@ func AddComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = services.AddComment(comment)
+	err = services.AddCommentToDB(comment)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -33,7 +33,7 @@ func DeleteComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = services.DeleteComment(comment.ID)
+	err = services.DeleteCommentFromDB(comment.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -50,7 +50,7 @@ func EditComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = services.EditComment(updatedComment)
+	err = services.EditCommentInDB(updatedComment)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -58,5 +58,3 @@ func EditComment(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
-
-// Puedes agregar más controladores según las necesidades

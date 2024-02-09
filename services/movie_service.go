@@ -45,11 +45,9 @@ func GetMostViewedMovies(n int) ([]models.Movie, error) {
 	return mostViewedMovies, nil
 }
 
-// Funciones de ejemplo para interactuar con la base de datos
 func saveMovieDetailsToDB(movieDetails models.Movie) error {
-	// Implementar la lógica para guardar los detalles de la película en la base de datos
-	// Aquí puedes utilizar el objeto 'db' configurado en utils/db.go para interactuar con la base de datos
-	_, err := db.Exec("INSERT INTO movies (title, overview, release_date, original_language) VALUES (?, ?, ?, ?)",
+
+	_, err := utils.DB.Exec("INSERT INTO movies (title, overview, release_date, original_language) VALUES (?, ?, ?, ?)",
 		movieDetails.Title, movieDetails.Overview, movieDetails.ReleaseDate, movieDetails.OriginalLanguage)
 	if err != nil {
 		return err
@@ -58,9 +56,8 @@ func saveMovieDetailsToDB(movieDetails models.Movie) error {
 }
 
 func incrementMovieViewCountInDB(movieID string) error {
-	// Implementar la lógica para incrementar el contador de visualizaciones en la base de datos
-	// Aquí puedes utilizar el objeto 'db' configurado en utils/db.go para interactuar con la base de datos
-	_, err := db.Exec("UPDATE movies SET view_count = view_count + 1 WHERE id = ?", movieID)
+
+	_, err := utils.DB.Exec("UPDATE movies SET visualizations = visualizations + 1 WHERE id = ?", movieID)
 	if err != nil {
 		return err
 	}
@@ -68,9 +65,7 @@ func incrementMovieViewCountInDB(movieID string) error {
 }
 
 func getMostViewedMoviesFromDB(n int) ([]models.Movie, error) {
-	// Implementar la lógica para obtener las n películas más visualizadas desde la base de datos
-	// Aquí puedes utilizar el objeto 'db' configurado en utils/db.go para interactuar con la base de datos
-	rows, err := db.Query("SELECT * FROM movies ORDER BY view_count DESC LIMIT ?", n)
+	rows, err := utils.DB.Query("SELECT * FROM movies ORDER BY visualizations DESC LIMIT ?", n)
 	if err != nil {
 		return nil, err
 	}

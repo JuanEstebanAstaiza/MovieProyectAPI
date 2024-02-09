@@ -30,5 +30,14 @@ func GetMovieDetails(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMostViewedMovies(w http.ResponseWriter, r *http.Request) {
-	// Implementar lógica para obtener las n películas más visualizadas desde services/movie_service.go
+	// Obtener las n películas más visualizadas desde el servicio
+	movies, err := services.GetMostViewedMovies(1)
+	if err != nil {
+		http.Error(w, "Error al obtener las películas más visualizadas", http.StatusInternalServerError)
+		return
+	}
+
+	// Serializar la lista de películas a JSON y enviarla como respuesta
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(movies)
 }
