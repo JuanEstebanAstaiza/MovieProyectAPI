@@ -1,15 +1,13 @@
 -- Crear procedimiento almacenado para obtener los comentarios de una película
-CREATE OR REPLACE FUNCTION get_movie_comments(movie_id INT)
-    RETURNS TABLE (
-                      comment_id INT,
-                      user_id INT,
-                      comment_text TEXT,
-                      timestamp TIMESTAMP
-                  ) AS $$
+DELIMITER //
+
+CREATE PROCEDURE get_movie_comments(IN movie_id INT)
 BEGIN
-    RETURN QUERY
-        SELECT id, user_id, comment_text, timestamp
-        FROM comments
-        WHERE movie_id = movie_id;
+    SELECT id AS comment_id, user_id, comment AS comment_text, timestamp
+    FROM comments
+    WHERE movie_id = movie_id;
 END;
-$$ LANGUAGE plpgsql;
+
+//
+
+DELIMITER ;
