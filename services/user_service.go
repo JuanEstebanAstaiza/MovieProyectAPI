@@ -7,10 +7,7 @@ import (
 
 func ModifyUserInfo(userID string, updatedUser models.UserCredentials) error {
 	err := modifyUserInfoInDB(userID, updatedUser)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func modifyUserInfoInDB(userID string, updatedUser models.UserCredentials) error {
