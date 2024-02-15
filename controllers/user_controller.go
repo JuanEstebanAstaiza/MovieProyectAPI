@@ -47,20 +47,28 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginUser(w http.ResponseWriter, r *http.Request) {
-	var credentials models.UserCredentials
-	err := json.NewDecoder(r.Body).Decode(&credentials)
+	// Parsear los datos del cuerpo de la solicitud
+	var user models.UserCredentials
+	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Error al decodificar el cuerpo de la solicitud", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	user, err := services.LoginUser(credentials)
+	// Obtener el usuario con las credenciales proporcionadas
+	userInfo, err := services.LoginUser(user)
 	if err != nil {
-		http.Error(w, "Error al autenticar al usuario", http.StatusUnauthorized)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Por simplicidad, aquí solo devolvemos los datos del usuario autenticado
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	if userInfo == nil {
+		// Las credenciales son inválidas
+		http.Error(w, "Credenciales inválidas", http.StatusUnauthorized)
+		return
+	}
+
+	// Si las credenciales son válidas, enviar la información del usuario
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(userInfo)
 }
