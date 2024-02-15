@@ -1,8 +1,9 @@
-package moviesProyectAPI
+package main
 
 import (
 	"fmt"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/controllers"
+	"github.com/JuanEstebanAstaiza/MovieProyectAPI/utils"
 	"log"
 	"net/http"
 
@@ -12,7 +13,7 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-
+	utils.InitDB()
 	// Configurar rutas
 	router.HandleFunc("/api/movie/{movie_id}", controllers.GetMovieDetails).Methods("GET")
 	router.HandleFunc("/api/most-viewed", controllers.GetMostViewedMovies).Methods("GET")
