@@ -16,7 +16,7 @@ func GetMovieDetails(movieID string) (models.Movie, error) {
 	}
 
 	// Guardar los detalles de la película en la base de datos y aumentar el contador de visualizaciones
-	_, err = SaveMovieDetailsAndIncrementViewCount(movieDetails)
+	err = SaveMovieDetailsAndIncrementViewCount(movieDetails, movieID)
 	if err != nil {
 		return models.Movie{}, fmt.Errorf("error al guardar detalles de la película y aumentar el contador de visualizaciones: %v", err)
 	}
@@ -45,26 +45,27 @@ func GetMostViewedMovies(n int) ([]models.Movie, error) {
 
 // SaveMovieDetailsAndIncrementViewCount guarda los detalles de la película en la base de datos
 // y aumenta el contador de visualizaciones. Retorna el ID único de la película.
-func SaveMovieDetailsAndIncrementViewCount(movieDetails models.Movie) (string, error) {
+func SaveMovieDetailsAndIncrementViewCount(movieDetails models.Movie, apiID string) error {
 	// Generar un ID único para la película
-	movieID, _ := utils.GenerateUniqueMovieID()
-
-	// Obtener la fecha y hora actual
+	movieID, err := utils.GenerateUniqueMovieID()
+	if err != nil {
+		return fmt.Errorf("error al generar un ID único para la película: %v", err)
+	}
 
 	// Guardar los detalles de la película en la base de datos
-	_, err := utils.DB.Exec("INSERT INTO movies (id, title, overview, release_date, original_language, visualizations) VALUES (?, ?, ?, ?, ?, ?)",
-		movieID, movieDetails.Title, movieDetails.Overview, movieDetails.ReleaseDate, movieDetails.OriginalLanguage, 1)
+	_, err = utils.DB.Exec("INSERT INTO movies (id, title, overview, release_date, original_language, api_id) VALUES (?, ?, ?, ?, ?, ?)",
+		movieID, movieDetails.Title, movieDetails.Overview, movieDetails.ReleaseDate, movieDetails.OriginalLanguage, apiID)
 	if err != nil {
-		return "", fmt.Errorf("error al guardar los detalles de la película: %v", err)
+		return fmt.Errorf("error al guardar los detalles de la película en la base de datos: %v", err)
 	}
 
 	// Incrementar el contador de visualizaciones en la base de datos
-	_, err = utils.DB.Exec("UPDATE movies SET visualizations = visualizations + 1 WHERE id = ?", movieID)
+	err = IncrementViewCount(movieID)
 	if err != nil {
-		return "", fmt.Errorf("error al incrementar el contador de visualizaciones: %v", err)
+		return fmt.Errorf("error al incrementar el contador de visualizaciones: %v", err)
 	}
 
-	return movieID, nil
+	return nil
 }
 
 func getMostViewedMoviesFromDB(n int) ([]models.Movie, error) {

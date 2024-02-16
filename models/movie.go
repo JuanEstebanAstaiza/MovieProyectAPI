@@ -2,7 +2,7 @@ package models
 
 // Movie estructura interna de la aplicación
 type Movie struct {
-	ID               string `json:"id"`
+	ID               int    `json:"id"`
 	Title            string `json:"title"`
 	Overview         string `json:"overview"`
 	ReleaseDate      string `json:"release_date"`
@@ -11,7 +11,7 @@ type Movie struct {
 
 // ExternalMovie estructura para deserializar datos de la API externa (TMDb)
 type ExternalMovie struct {
-	ID               string `json:"id"`
+	ID               int    `json:"id"`
 	Title            string `json:"title"`
 	Overview         string `json:"overview"`
 	ReleaseDate      string `json:"release_date"`
