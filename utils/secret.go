@@ -12,3 +12,7 @@ func EncryptPassword(password string) string {
 	encryptedPassword := hex.EncodeToString(hash.Sum(nil))
 	return encryptedPassword
 }
+
+func ComparePasswords(storedHash, providedHash string) bool {
+	return storedHash == providedHash
+}

@@ -19,14 +19,22 @@ func AuthenticateUser(credentials models.UserCredentials) (bool, error) {
 		return false, nil
 	}
 
+	// Obtener la contraseña encriptada del usuario desde la base de datos
+	var storedPassword string
+	err = utils.DB.QueryRow("SELECT password FROM users WHERE email = ?", credentials.Email).Scan(&storedPassword)
+	if err != nil {
+		return false, err
+	}
+
 	// Encriptar la contraseña proporcionada con MD5
 	encryptedPassword := utils.EncryptPassword(credentials.Password)
 
 	// Verificar si la contraseña encriptada coincide con la contraseña encriptada almacenada en la base de datos
-	if credentials.Password != encryptedPassword {
+	if storedPassword != encryptedPassword {
 		return false, nil
 	}
 
+	// Las credenciales son válidas
 	return true, nil
 }
 

@@ -1,37 +1,35 @@
 package services
 
 import (
+	"fmt"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/models"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/utils"
 )
 
+// GetMovieDetails obtiene los detalles de la película por su ID,
+// guarda los detalles en la base de datos y luego incrementa el contador de visualizaciones.
 func GetMovieDetails(movieID string) (models.Movie, error) {
 	// Obtener detalles de la película desde la API de TMDb
 	movieDetails, err := utils.GetMovieDetailsFromTMDb(movieID)
 	if err != nil {
-		return models.Movie{}, err
+		return models.Movie{}, fmt.Errorf("error al obtener detalles de la película: %v", err)
 	}
 
-	// Incrementar el contador de visualizaciones (esto es un ejemplo, debes adaptarlo según tu esquema)
-	err = incrementMovieViewCountInDB(movieID)
+	// Guardar los detalles de la película en la base de datos y aumentar el contador de visualizaciones
+	_, err = SaveMovieDetailsAndIncrementViewCount(movieDetails)
 	if err != nil {
-		return models.Movie{}, err
-	}
-
-	// Guardar los detalles de la película en la base de datos (esto es un ejemplo, debes adaptarlo según tu esquema)
-	err = saveMovieDetailsToDB(movieDetails)
-	if err != nil {
-		return models.Movie{}, err
+		return models.Movie{}, fmt.Errorf("error al guardar detalles de la película y aumentar el contador de visualizaciones: %v", err)
 	}
 
 	return movieDetails, nil
 }
 
+// IncrementViewCount incrementa el contador de visualizaciones de una película en la base de datos.
 func IncrementViewCount(movieID string) error {
-	// Incrementar el contador de visualizaciones en la base de datos (esto es un ejemplo, debes adaptarlo según tu esquema)
-	err := incrementMovieViewCountInDB(movieID)
+	// Incrementar el contador de visualizaciones en la base de datos
+	_, err := utils.DB.Exec("UPDATE movies SET visualizations = visualizations + 1 WHERE id = ?", movieID)
 	if err != nil {
-		return err
+		return fmt.Errorf("error al incrementar el contador de visualizaciones: %v", err)
 	}
 	return nil
 }
@@ -45,23 +43,28 @@ func GetMostViewedMovies(n int) ([]models.Movie, error) {
 	return mostViewedMovies, nil
 }
 
-func saveMovieDetailsToDB(movieDetails models.Movie) error {
+// SaveMovieDetailsAndIncrementViewCount guarda los detalles de la película en la base de datos
+// y aumenta el contador de visualizaciones. Retorna el ID único de la película.
+func SaveMovieDetailsAndIncrementViewCount(movieDetails models.Movie) (string, error) {
+	// Generar un ID único para la película
+	movieID, _ := utils.GenerateUniqueMovieID()
 
-	_, err := utils.DB.Exec("INSERT INTO movies (title, overview, release_date, original_language) VALUES (?, ?, ?, ?)",
-		movieDetails.Title, movieDetails.Overview, movieDetails.ReleaseDate, movieDetails.OriginalLanguage)
+	// Obtener la fecha y hora actual
+
+	// Guardar los detalles de la película en la base de datos
+	_, err := utils.DB.Exec("INSERT INTO movies (id, title, overview, release_date, original_language, visualizations) VALUES (?, ?, ?, ?, ?, ?)",
+		movieID, movieDetails.Title, movieDetails.Overview, movieDetails.ReleaseDate, movieDetails.OriginalLanguage, 1)
 	if err != nil {
-		return err
+		return "", fmt.Errorf("error al guardar los detalles de la película: %v", err)
 	}
-	return nil
-}
 
-func incrementMovieViewCountInDB(movieID string) error {
-
-	_, err := utils.DB.Exec("UPDATE movies SET visualizations = visualizations + 1 WHERE id = ?", movieID)
+	// Incrementar el contador de visualizaciones en la base de datos
+	_, err = utils.DB.Exec("UPDATE movies SET visualizations = visualizations + 1 WHERE id = ?", movieID)
 	if err != nil {
-		return err
+		return "", fmt.Errorf("error al incrementar el contador de visualizaciones: %v", err)
 	}
-	return nil
+
+	return movieID, nil
 }
 
 func getMostViewedMoviesFromDB(n int) ([]models.Movie, error) {

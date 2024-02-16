@@ -17,7 +17,7 @@ const (
 
 // GetMovieDetailsFromTMDb obtiene detalles de una película desde TMDb
 func GetMovieDetailsFromTMDb(movieID string) (models.Movie, error) {
-	endpoint := fmt.Sprintf("/%s/movie/%s", tmdbBaseURL, movieID)
+	endpoint := fmt.Sprintf("%s/movie/%s", tmdbBaseURL, movieID)
 	queryParams := url.Values{}
 	queryParams.Add("api_key", apiKey)
 

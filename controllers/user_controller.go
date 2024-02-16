@@ -71,6 +71,16 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Si las credenciales son válidas, enviar la información del usuario
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(userInfo)
+	if userInfo != nil {
+		// Escribir encabezado de respuesta exitosa
+		w.WriteHeader(http.StatusOK)
+		// Codificar el mensaje de "Acceso concedido" junto con los detalles del usuario
+		response := map[string]interface{}{
+			"message": "Acceso concedido",
+			"user":    userInfo,
+		}
+		// Codificar la respuesta en formato JSON y enviarla
+		json.NewEncoder(w).Encode(response)
+	}
+
 }
