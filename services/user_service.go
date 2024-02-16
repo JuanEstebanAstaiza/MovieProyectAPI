@@ -44,15 +44,19 @@ func modifyUserInfoInDB(userID string, updatedUser models.UserCredentials) error
 	return nil
 }
 
+// RegisterUser registra un nuevo usuario en la base de datos.
 func RegisterUser(user models.UserCredentials) error {
+	// Generar un ID único para el usuario
+	userID, err := utils.GenerateUserID()
+	if err != nil {
+		return err
+	}
+
 	// Encriptar la contraseña utilizando MD5
 	encryptedPassword := utils.EncryptPassword(user.Password)
 
-	// Reemplazar la contraseña en el objeto de usuario con la contraseña encriptada
-	user.Password = encryptedPassword
-
-	// Insertar el usuario en la base de datos
-	_, err := utils.DB.Exec("INSERT INTO users (nickname, email, password) VALUES (?, ?, ?)", user.Nickname, user.Email, user.Password)
+	// Insertar el usuario en la base de datos con el ID único generado
+	_, err = utils.DB.Exec("INSERT INTO users (id, nickname, email, password) VALUES (?, ?, ?, ?)", userID, user.Nickname, user.Email, encryptedPassword)
 	if err != nil {
 		return err
 	}

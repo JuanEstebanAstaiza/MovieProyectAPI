@@ -37,12 +37,14 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Registrar al usuario
 	err = services.RegisterUser(user)
 	if err != nil {
 		http.Error(w, "Error al registrar el usuario", http.StatusInternalServerError)
 		return
 	}
 
+	// Responder con éxito
 	w.WriteHeader(http.StatusCreated)
 }
 

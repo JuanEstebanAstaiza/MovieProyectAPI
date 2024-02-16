@@ -12,8 +12,11 @@ import (
 )
 
 func main() {
+	err := utils.InitDB()
+	if err != nil {
+		log.Fatal(err)
+	}
 	router := mux.NewRouter()
-	utils.InitDB()
 	// Configurar rutas
 	router.HandleFunc("/api/movie/{movie_id}", controllers.GetMovieDetails).Methods("GET")
 	router.HandleFunc("/api/most-viewed", controllers.GetMostViewedMovies).Methods("GET")
