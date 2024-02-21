@@ -26,6 +26,10 @@ func main() {
 	router.HandleFunc("/api/user/{user_id}", controllers.ModifyUser).Methods("PUT")
 	router.HandleFunc("/api/user/register", controllers.RegisterUser).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.LoginUser).Methods("POST")
+	router.HandleFunc("/api/process-payment", controllers.ProcessPaymentHandler).Methods("POST")
+	router.HandleFunc("/api/get-payments/{user_id}", controllers.GetPaymentsByUserIDHandler).Methods("GET")
+	router.HandleFunc("/api/update-payment-status/{payment_id}", controllers.UpdatePaymentStatusHandler).Methods("PUT")
+	router.HandleFunc("/api/get-total-payments/{user_id}", controllers.GetTotalPaymentsByUserIDHandler).Methods("GET")
 
 	// Iniciar el servidor
 	port := ":8080"
