@@ -96,7 +96,7 @@ func LoginUser(credentials models.UserCredentials) (*models.UserCredentials, err
 		return nil, err
 	}
 
-	// Verificar si la contraseña proporcionada coincide con la contraseña almacenada
+	// Verificar si la contraseña proporcionada coincide con la contraseña almacenada, era colocar encrypt a las credenciales, att: Juan Samuel
 	if !utils.ComparePasswords(storedPassword, utils.EncryptPassword(credentials.Password)) {
 		// Las contraseñas no coinciden
 		return nil, nil

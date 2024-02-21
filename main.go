@@ -17,7 +17,6 @@ func main() {
 		log.Fatal(err)
 	}
 	router := mux.NewRouter()
-	// Configurar rutas
 	router.HandleFunc("/api/movie/{movie_id}", controllers.GetMovieDetails).Methods("GET")
 	router.HandleFunc("/api/most-viewed", controllers.GetMostViewedMovies).Methods("GET")
 	router.HandleFunc("/api/comment", controllers.AddComment).Methods("POST")
@@ -30,6 +29,9 @@ func main() {
 	router.HandleFunc("/api/get-payments/{user_id}", controllers.GetPaymentsByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/update-payment-status/{payment_id}", controllers.UpdatePaymentStatusHandler).Methods("PUT")
 	router.HandleFunc("/api/get-total-payments/{user_id}", controllers.GetTotalPaymentsByUserIDHandler).Methods("GET")
+	router.HandleFunc("/api/create-subscription", controllers.CreateSubscriptionHandler).Methods("POST")
+	router.HandleFunc("/api/get-subscription/{user_id}", controllers.GetSubscriptionByUserIDHandler).Methods("GET")
+	router.HandleFunc("/api/cancel-subscription/{user_id}", controllers.CancelSubscriptionHandler).Methods("PUT")
 
 	// Iniciar el servidor
 	port := ":8080"
