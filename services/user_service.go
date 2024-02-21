@@ -1,6 +1,8 @@
 package services
 
 import (
+	"database/sql"
+	"errors"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/database"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/models"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/utils"
@@ -83,10 +85,31 @@ func LoginUser(credentials models.UserCredentials) (*models.UserCredentials, err
 		return nil, nil
 	}
 
+	// Obtener la contraseña almacenada del usuario con el email proporcionado
+	var storedPassword string
+	err = utils.DB.QueryRow("SELECT password FROM users WHERE email = ?", credentials.Email).Scan(&storedPassword)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			// No se encontró ningún usuario con el email dado
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	// Verificar si la contraseña proporcionada coincide con la contraseña almacenada
+	if !utils.ComparePasswords(storedPassword, credentials.Password) {
+		// Las contraseñas no coinciden
+		return nil, nil
+	}
+
 	// Obtener el usuario con el email proporcionado
 	var user models.UserCredentials
-	err = utils.DB.QueryRow("SELECT id, nickname, email, password FROM users WHERE email = ?", credentials.Email).Scan(&user.ID, &user.Nickname, &user.Email, &user.Password)
+	err = utils.DB.QueryRow("SELECT id, nickname, email FROM users WHERE email = ?", credentials.Email).Scan(&user.ID, &user.Nickname, &user.Email)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			// No se encontró ningún usuario con el email dado
+			return nil, nil
+		}
 		return nil, err
 	}
 

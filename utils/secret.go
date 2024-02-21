@@ -13,6 +13,6 @@ func EncryptPassword(password string) string {
 	return encryptedPassword
 }
 
-func ComparePasswords(storedHash, providedHash string) bool {
+func ComparePasswords(storedHash string, providedHash string) bool {
 	return storedHash == providedHash
 }
