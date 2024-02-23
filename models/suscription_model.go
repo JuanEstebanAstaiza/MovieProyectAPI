@@ -1,12 +1,12 @@
 package models
 
 type Subscription struct {
-	ID          int    `json:"id"`
-	UserID      int    `json:"user_id"`
-	Plan        string `json:"plan"`
-	Price       int    `json:"price"`
-	Description string `json:"description"`
-	Status      string `json:"status"`
+	ID          int     `json:"id"`
+	UserID      string  `json:"user_id"`
+	Plan        string  `json:"plan"`
+	Price       float64 `json:"price"`
+	Description string  `json:"description"`
+	Status      string  `json:"status"`
 }
 
 type SubscriptionStatus string
