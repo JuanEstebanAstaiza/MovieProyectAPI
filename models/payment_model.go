@@ -3,7 +3,7 @@ package models
 // Payment representa un pago en el sistema.
 type Payment struct {
 	ID          int     `json:"id"`
-	UserID      int     `json:"user_id"`
+	UserID      string  `json:"user_id"`
 	Amount      float64 `json:"amount"`
 	Description string  `json:"description"`
 	Status      string  `json:"status"`
