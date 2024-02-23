@@ -31,8 +31,8 @@ func GetSubscriptionByUserID(userID int) (models.Subscription, error) {
 	return subscription, nil
 }
 
-// CancelSubscription cancela la suscripción activa de un usuario.
-func CancelSubscription(userID int) error {
+// CancelSubscription cancela la suscripción activa de un usuario cambiando su estado a inactivo.
+func CancelSubscription(userID string) error {
 	result, err := utils.DB.Exec("UPDATE subscriptions SET status = ? WHERE user_id = ? AND status = ?",
 		models.SubscriptionInactive, userID, models.SubscriptionActive)
 	if err != nil {

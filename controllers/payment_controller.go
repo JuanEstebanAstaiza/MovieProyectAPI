@@ -34,7 +34,7 @@ func GetPaymentsByUserIDHandler(w http.ResponseWriter, r *http.Request) {
 	userID := getUserIDFromRequest(r)
 
 	payments, err := services.GetPaymentsByUserID(userID)
-	if err != nil {
+	if err == nil {
 		http.Error(w, "Error al obtener los pagos del usuario", http.StatusInternalServerError)
 		return
 	}
@@ -98,4 +98,12 @@ func getPaymentIDFromRequest(r *http.Request) int {
 
 	paymentID, _ := strconv.Atoi(paymentIDStr)
 	return paymentID
+}
+
+// Función auxiliar para obtener el ID de usuario de la solicitud como string.
+func getUserIDFromRequestAsString(r *http.Request) string {
+	// Supongamos que el ID de usuario se pasa como parte de la ruta en el formato "/api/user/{user_id}"
+	parts := strings.Split(r.URL.Path, "/")
+	userID := parts[len(parts)-1]
+	return userID
 }

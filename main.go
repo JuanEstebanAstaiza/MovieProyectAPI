@@ -30,7 +30,7 @@ func main() {
 	router.HandleFunc("/api/update-payment-status/{payment_id}", controllers.UpdatePaymentStatusHandler).Methods("PUT")
 	router.HandleFunc("/api/get-total-payments", controllers.GetTotalPaymentsByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/create-subscription", controllers.CreateSubscriptionHandler).Methods("POST")
-	router.HandleFunc("/api/get-subscription/{user_id}", controllers.GetSubscriptionByUserIDHandler).Methods("GET")
+	router.HandleFunc("/api/get-subscription", controllers.GetSubscriptionByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/cancel-subscription/{user_id}", controllers.CancelSubscriptionHandler).Methods("PUT")
 
 	// Iniciar el servidor

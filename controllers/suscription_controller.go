@@ -43,7 +43,7 @@ func GetSubscriptionByUserIDHandler(w http.ResponseWriter, r *http.Request) {
 
 // CancelSubscriptionHandler maneja la solicitud para cancelar la suscripción activa de un usuario.
 func CancelSubscriptionHandler(w http.ResponseWriter, r *http.Request) {
-	userID := getUserIDFromRequest(r)
+	userID := getUserIDFromRequestAsString(r)
 
 	err := services.CancelSubscription(userID)
 	if err != nil {
