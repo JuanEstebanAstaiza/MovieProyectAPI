@@ -1,0 +1,22 @@
+steps:
+  # Paso 1: Compilar la aplicación (puedes adaptar estos comandos según tu lenguaje/framework)
+  - name: 'gcr.io/cloud-builders/go'
+    args: ['build', '-o', 'app', '.']
+
+  # Paso 2: Construir la imagen de Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/model-fenicia', '.']
+
+  # Paso 3: Subir la imagen al Container Registry de Google Cloud
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/model-fenicia']
+
+  # Paso 4: Desplegar la aplicación en App Engine (puedes adaptar esto según tu servicio de despliegue)
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy', '--image-url=gcr.io/$PROJECT_ID/model-fenicia', '--version=v1']
+    dir: 'MovieProyectAPI'  # Ruta al directorio de tu aplicación
+
+# Configuración de sustituciones de variables
+substitutions:
+  _APP_NAME: model-fenicia
+  _PROJECT_ID: your-project-id
