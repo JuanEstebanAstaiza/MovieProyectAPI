@@ -14,7 +14,7 @@ steps:
   # Paso 4: Desplegar la aplicación en App Engine (puedes adaptar esto según tu servicio de despliegue)
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['app', 'deploy', '--image-url=gcr.io/$PROJECT_ID/model-fenicia', '--version=v1']
-    dir: 'MovieProyectAPI'  # Ruta al directorio de tu aplicación
+    dir: 'cloudbuild.yaml'  # Ruta al directorio de tu aplicación
 
 # Configuración de sustituciones de variables
 substitutions:
