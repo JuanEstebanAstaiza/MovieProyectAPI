@@ -16,6 +16,10 @@ steps:
     args: ['app', 'deploy', '--image-url=gcr.io/$PROJECT_ID/model-fenicia', '--version=v1']
     dir: 'cloudbuild.yaml'  # Ruta al directorio de tu aplicación
 
+    options:
+  logging: CLOUD_LOGGING_ONLY
+
+
 # Configuración de sustituciones de variables
 substitutions:
   _APP_NAME: model-fenicia
