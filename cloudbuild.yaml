@@ -19,4 +19,4 @@ steps:
 # Configuración de sustituciones de variables
 substitutions:
   _APP_NAME: model-fenicia
-  _PROJECT_ID: your-project-id
+  _PROJECT_ID: encoded-102001
