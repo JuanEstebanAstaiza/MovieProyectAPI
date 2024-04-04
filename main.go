@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/controllers"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/utils"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
 
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+
 	err := utils.InitDB()
 	if err != nil {
 		log.Fatal(err)
@@ -33,9 +35,17 @@ func main() {
 	router.HandleFunc("/api/get-subscription", controllers.GetSubscriptionByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/cancel-subscription/{user_id}", controllers.CancelSubscriptionHandler).Methods("PUT")
 
+	// Opciones CORS
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"}, // Permitir solicitudes desde cualquier origen
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{"Content-Type", "Authorization"},
+	})
+
+	handler := c.Handler(router)
 	// Iniciar el servidor
 	port := ":8080"
 	fmt.Println("Servidor escuchando en el puerto", port)
-	log.Fatal(http.ListenAndServe(port, router))
+	log.Fatal(http.ListenAndServe(port, handler))
 
 }

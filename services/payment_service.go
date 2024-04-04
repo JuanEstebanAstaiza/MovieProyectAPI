@@ -53,8 +53,8 @@ func GetPaymentsByUserID(userID int) ([]models.Payment, error) {
 }
 
 // UpdatePaymentStatus actualiza el estado de un pago en la base de datos.
-func UpdatePaymentStatus(paymentID int, status models.PaymentStatus) error {
-	result, err := utils.DB.Exec("UPDATE payments SET status = ? WHERE id = ?", status, paymentID)
+func UpdatePaymentStatus(paymentID int) error {
+	result, err := utils.DB.Exec("UPDATE payments SET status = ? WHERE id = ?", models.PaymentFailed, paymentID)
 	if err != nil {
 		return err
 	}

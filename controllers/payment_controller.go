@@ -56,7 +56,7 @@ func UpdatePaymentStatusHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = services.UpdatePaymentStatus(paymentID, updateData.Status)
+	err = services.UpdatePaymentStatus(paymentID)
 	if err != nil {
 		http.Error(w, "Error al actualizar el estado del pago", http.StatusInternalServerError)
 		return
