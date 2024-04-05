@@ -1,4 +1,4 @@
-runtime: go121
+runtime: go118
 env: flex
 
 service: default

@@ -5,13 +5,14 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/movieproyectapi']
 
-  #Implementar el servicio 'default'
+    # Implementar el servicio 'default'
   - name: 'gcr.io/cloud-builders/gcloud'
     args: [ 'app', 'deploy', 'default/app.yaml' ]
 
   # Implementar tu servicio actual.
   - name: 'gcr.io/cloud-builders/gcloud'
     args: [ 'app', 'deploy', '--image-url=gcr.io/$PROJECT_ID/movieproyectapi', '--version=v1' ]
+    dir: 'movieproyectapi'  # Ruta relativa al archivo app.yaml
 
 
 substitutions:
