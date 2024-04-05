@@ -1,0 +1,9 @@
+runtime: go121
+env: flex
+
+service: movieproyectapi
+
+handlers:
+  - url: /.*
+    script: auto
+
