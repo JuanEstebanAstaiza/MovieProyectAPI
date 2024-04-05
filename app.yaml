@@ -1,9 +1,24 @@
 runtime: go118
 env: flex
 
-service: default
+service: movieproyectapi
 
 handlers:
   - url: /.*
     script: auto
 
+liveness_check:
+  path: /
+  initial_delay: 10s
+  timeout: 5s
+
+readiness_check:
+  path: /
+  initial_delay: 10s
+  timeout: 5s
+
+resources:
+  cpu: 1
+  memory: 1G
+
+instances: 1
