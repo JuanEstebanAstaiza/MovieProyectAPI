@@ -1,7 +1,7 @@
 steps:
   # Paso 1: Compilar la aplicación (puedes adaptar estos comandos según tu lenguaje/framework)
   - name: 'gcr.io/cloud-builders/go'
-    args: ['build', '-o', 'main.go', '.']
+    args: ['build', '-o', 'MovieProyectAPI', '.']
 
   # Paso 2: Construir la imagen de Docker
   - name: 'gcr.io/cloud-builders/docker'
