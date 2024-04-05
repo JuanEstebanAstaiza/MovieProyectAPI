@@ -1,7 +1,7 @@
 runtime: go121
 env: flex
 
-service: movieproyectapi
+service: default
 
 handlers:
   - url: /.*
