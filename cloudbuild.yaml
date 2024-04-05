@@ -1,25 +1,22 @@
-steps:
-  # Paso 1: Compilar la aplicación (puedes adaptar estos comandos según tu lenguaje/framework)
-  - name: 'gcr.io/cloud-builders/go'
-    args: ['build', '-o', 'MovieProyectAPI', '.']
+name: Go
 
-  # Paso 2: Construir la imagen de Docker
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/model-fenicia', '.']
+on: [push]
 
-  # Paso 3: Subir la imagen al Container Registry de Google Cloud
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/model-fenicia']
+jobs:
+  build:
 
-  # Paso 4: Desplegar la aplicación en App Engine (puedes adaptar esto según tu servicio de despliegue)
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy', '--image-url=gcr.io/$PROJECT_ID/model-fenicia', '--version=v1']
-    dir: 'cloudbuild.yaml'  # Ruta al directorio de tu aplicación
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.19', '1.20', '1.21.x' ]
 
-# Configuración de sustituciones de variables
-substitutions:
-  _APP_NAME: model-fenicia
-  _PROJECT_ID: encoded-102001
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go ${{ main.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ main.go-version }}
+      # You can test your matrix by printing the current Go version
+      - name: Display Go version
+        run: go version
 
-options:
-  logging: CLOUD_LOGGING_ONLY
