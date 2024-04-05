@@ -13,12 +13,3 @@ RUN go build -o movieproyectapi
 EXPOSE 8080
 
 CMD ["./movieproyectapi"]
-
-
-
-
-
-
-
-
-ENTRYPOINT ["top", "-b"]
