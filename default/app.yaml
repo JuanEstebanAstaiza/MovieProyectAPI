@@ -1,8 +1,0 @@
-runtime: go118
-env: flex
-
-service: default
-
-handlers:
-  - url: /.*
-    script: auto

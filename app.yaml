@@ -1,7 +1,7 @@
 runtime: go118
 env: flex
 
-service: movieproyectapi
+service: default
 
 handlers:
   - url: /.*
@@ -22,3 +22,5 @@ resources:
   memory: 1G
 
 instances: 1
+
+
