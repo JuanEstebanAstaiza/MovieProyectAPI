@@ -7,7 +7,7 @@ steps:
 
     # Implementar el servicio 'default'
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: [ 'app', 'deploy', 'default/app.yaml' ]
+    #args: [ 'app', 'deploy', 'default/app.yaml' ]
 
   # Implementar tu servicio actual.
   - name: 'gcr.io/cloud-builders/gcloud'
