@@ -6,7 +6,7 @@ steps:
     args: ['push', 'gcr.io/$PROJECT_ID/movieproyectapi']
 
     # Implementar el servicio 'default'
-  - name: 'gcr.io/cloud-builders/gcloud'
+  #- name: 'gcr.io/cloud-builders/gcloud'
     #args: [ 'app', 'deploy', 'default/app.yaml' ]
 
   # Implementar tu servicio actual.
