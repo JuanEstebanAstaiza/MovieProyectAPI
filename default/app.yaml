@@ -1,0 +1,4 @@
+default/app.yaml:
+
+runtime: go118
+env: flex
