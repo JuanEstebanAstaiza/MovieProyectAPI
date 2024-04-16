@@ -1,0 +1,6 @@
+# Exclude specific files and directories
+# /tmp
+# /build
+# .env
+
+# Exclude nothing, include everything
