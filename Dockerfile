@@ -1,6 +1,6 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine3.16
 
-WORKDIR /app
+WORKDIR /moviesProyectAPI
 
 COPY go.mod go.sum ./
 
