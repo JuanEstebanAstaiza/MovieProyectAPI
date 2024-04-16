@@ -1,6 +1,8 @@
 # Exclude specific files and directories
 # /tmp
 # /build
-# .env
-
+.env
+app.yaml
+cloudbuild.yaml
+/default
 # Exclude nothing, include everything
