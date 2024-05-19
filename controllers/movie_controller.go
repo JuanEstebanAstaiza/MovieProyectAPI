@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/services"
 	"github.com/gorilla/mux"
@@ -30,8 +31,11 @@ func GetMovieDetails(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMostViewedMovies(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	n, _ := strconv.Atoi(params["cant"])
+
 	// Obtener las n películas más visualizadas desde el servicio
-	movies, err := services.GetMostViewedMovies(1)
+	movies, err := services.GetMostViewedMovies(n)
 	if err != nil {
 		http.Error(w, "Error al obtener las películas más visualizadas", http.StatusInternalServerError)
 		return

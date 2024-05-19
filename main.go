@@ -20,7 +20,7 @@ func main() {
 	}
 	router := mux.NewRouter()
 	router.HandleFunc("/api/movie/{movie_id}", controllers.GetMovieDetails).Methods("GET")
-	router.HandleFunc("/api/most-viewed", controllers.GetMostViewedMovies).Methods("GET")
+	router.HandleFunc("/api/movie/most-viewed/{cant}", controllers.GetMostViewedMovies).Methods("GET")
 	router.HandleFunc("/api/comment", controllers.AddComment).Methods("POST")
 	router.HandleFunc("/api/comment", controllers.DeleteComment).Methods("DELETE")
 	router.HandleFunc("/api/comment", controllers.EditComment).Methods("PUT")
@@ -44,8 +44,7 @@ func main() {
 
 	handler := c.Handler(router)
 	// Iniciar el servidor
-	port := ":8080"
+	port := ":8088"
 	fmt.Println("Servidor escuchando en el puerto", port)
 	log.Fatal(http.ListenAndServe(port, handler))
-
 }
