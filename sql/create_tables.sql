@@ -1,6 +1,6 @@
 -- Crear la tabla de usuarios
 CREATE TABLE users (
-                       id INT PRIMARY KEY,
+                       id VARCHAR(255) PRIMARY KEY,
                        nickname VARCHAR(50) NOT NULL,
                        email VARCHAR(100) NOT NULL,
                        password VARCHAR(255) NOT NULL
@@ -23,7 +23,7 @@ CREATE TABLE movies (
 -- Crear la tabla de comentarios
 CREATE TABLE comments (
                           id INT PRIMARY KEY,
-                          user_id INT,
+                          user_id VARCHAR(255) NOT NULL ,
                           movie_id INT,
                           comment_text TEXT,
                           timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
