@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/models"
@@ -40,7 +41,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	// Registrar al usuario
 	err = services.RegisterUser(user)
 	if err != nil {
-		http.Error(w, "Error al registrar el usuario", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("Error al registrar el usuario: %e", err), http.StatusInternalServerError)
 		return
 	}
 
