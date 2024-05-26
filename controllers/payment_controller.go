@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/models"
 	"github.com/JuanEstebanAstaiza/MovieProyectAPI/services"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 	"strings"
@@ -31,7 +32,8 @@ func ProcessPaymentHandler(w http.ResponseWriter, r *http.Request) {
 
 // GetPaymentsByUserIDHandler maneja la solicitud para obtener todos los pagos realizados por un usuario.
 func GetPaymentsByUserIDHandler(w http.ResponseWriter, r *http.Request) {
-	userID := getUserIDFromRequest(r)
+	params := mux.Vars(r)
+	userID := params["user_id"]
 
 	payments, err := services.GetPaymentsByUserID(userID)
 	if err == nil {
@@ -45,7 +47,8 @@ func GetPaymentsByUserIDHandler(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePaymentStatusHandler maneja la solicitud para actualizar el estado de un pago.
 func UpdatePaymentStatusHandler(w http.ResponseWriter, r *http.Request) {
-	paymentID := getPaymentIDFromRequest(r)
+	params := mux.Vars(r)
+	paymentID, _ := strconv.Atoi(params["payment_id"])
 
 	var updateData struct {
 		Status models.PaymentStatus `json:"status"`
@@ -68,7 +71,8 @@ func UpdatePaymentStatusHandler(w http.ResponseWriter, r *http.Request) {
 
 // GetTotalPaymentsByUserIDHandler maneja la solicitud para obtener la cantidad total de pagos realizados por un usuario.
 func GetTotalPaymentsByUserIDHandler(w http.ResponseWriter, r *http.Request) {
-	userID := getUserIDFromRequest(r)
+	params := mux.Vars(r)
+	userID := params["user_id"]
 
 	totalPayments, err := services.GetTotalPaymentsByUserID(userID)
 	if err != nil {
@@ -81,13 +85,11 @@ func GetTotalPaymentsByUserIDHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Función auxiliar para obtener el ID de usuario de la solicitud.
-func getUserIDFromRequest(r *http.Request) int {
+func getUserIDFromRequest(r *http.Request) string {
 	// Supongamos que el ID de usuario se pasa como parte de la ruta en el formato "/api/user/{user_id}"
 	parts := strings.Split(r.URL.Path, "/")
 	userIDStr := parts[len(parts)-1]
-
-	userID, _ := strconv.Atoi(userIDStr)
-	return userID
+	return userIDStr
 }
 
 // Función auxiliar para obtener el ID de pago de la solicitud.
@@ -98,12 +100,4 @@ func getPaymentIDFromRequest(r *http.Request) int {
 
 	paymentID, _ := strconv.Atoi(paymentIDStr)
 	return paymentID
-}
-
-// Función auxiliar para obtener el ID de usuario de la solicitud como string.
-func getUserIDFromRequestAsString(r *http.Request) string {
-	// Supongamos que el ID de usuario se pasa como parte de la ruta en el formato "/api/user/{user_id}"
-	parts := strings.Split(r.URL.Path, "/")
-	userID := parts[len(parts)-1]
-	return userID
 }

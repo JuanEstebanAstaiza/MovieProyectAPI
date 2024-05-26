@@ -73,7 +73,7 @@ func RegisterUser(user models.UserCredentials) error {
 
 	return nil
 }
-func LoginUser(credentials models.UserCredentials) (*models.UserCredentials, error) {
+func LoginUser(credentials models.UserCredentials) (*models.UserProfile, error) {
 	// Verificar las credenciales del usuario
 	authenticated, err := AuthenticateUser(credentials)
 	if err != nil {
@@ -103,7 +103,7 @@ func LoginUser(credentials models.UserCredentials) (*models.UserCredentials, err
 	}
 
 	// Obtener el usuario con el email proporcionado
-	var user models.UserCredentials
+	var user models.UserProfile
 	err = utils.DB.QueryRow("SELECT id, nickname, email FROM users WHERE email = ?", credentials.Email).Scan(&user.ID, &user.Nickname, &user.Email)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -112,6 +112,5 @@ func LoginUser(credentials models.UserCredentials) (*models.UserCredentials, err
 		}
 		return nil, err
 	}
-
 	return &user, nil
 }

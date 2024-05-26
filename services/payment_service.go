@@ -28,7 +28,7 @@ func ProcessPayment(payment models.Payment) error {
 }
 
 // GetPaymentsByUserID devuelve todos los pagos realizados por un usuario específico.
-func GetPaymentsByUserID(userID int) ([]models.Payment, error) {
+func GetPaymentsByUserID(userID string) ([]models.Payment, error) {
 	var payments []models.Payment
 
 	rows, err := utils.DB.Query("SELECT id, user_id, amount, description, status FROM payments WHERE user_id = ?", userID)
@@ -72,7 +72,7 @@ func UpdatePaymentStatus(paymentID int) error {
 }
 
 // GetTotalPaymentsByUserID devuelve la cantidad total de pagos realizados por un usuario específico.
-func GetTotalPaymentsByUserID(userID int) (int, error) {
+func GetTotalPaymentsByUserID(userID string) (int, error) {
 	var totalPayments int
 
 	err := utils.DB.QueryRow("SELECT COUNT(id) FROM payments WHERE user_id = ?", userID).Scan(&totalPayments)

@@ -30,11 +30,10 @@ func main() {
 	router.HandleFunc("/api/process-payment", controllers.ProcessPaymentHandler).Methods("POST")
 	router.HandleFunc("/api/get-payments/{user_id}", controllers.GetPaymentsByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/update-payment-status/{payment_id}", controllers.UpdatePaymentStatusHandler).Methods("PUT")
-	router.HandleFunc("/api/get-total-payments", controllers.GetTotalPaymentsByUserIDHandler).Methods("GET")
+	router.HandleFunc("/api/get-total-payments/{user_id}", controllers.GetTotalPaymentsByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/create-subscription", controllers.CreateSubscriptionHandler).Methods("POST")
-	router.HandleFunc("/api/get-subscription", controllers.GetSubscriptionByUserIDHandler).Methods("GET")
+	router.HandleFunc("/api/get-subscription/{user_id}", controllers.GetSubscriptionByUserIDHandler).Methods("GET")
 	router.HandleFunc("/api/cancel-subscription/{user_id}", controllers.CancelSubscriptionHandler).Methods("PUT")
-
 	// Opciones CORS
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"}, // Permitir solicitudes desde cualquier origen
