@@ -9,22 +9,37 @@ import (
 )
 
 // ProcessPayment simula el procesamiento de un pago utilizando la API de Stripe.
-func ProcessPayment(payment models.Payment) error {
+func ProcessPayment(payment models.Payment) (models.Payment, error) {
 	// Simular el procesamiento del pago con Stripe
 	fmt.Println("Procesando pago con Stripe...")
 	// Aquí se podría llamar a la API de Stripe para procesar el pago
 	// Stripe.Charge(payment.Amount, payment.Description, payment.UserID)
-	time.Sleep(time.Second * 2) // Simular una demora en el procesamiento del pago
+	time.Sleep(time.Second * 4) // Simular una demora en el procesamiento del pago
 
 	// Por ahora, simplemente insertaremos el pago en la base de datos
-	_, err := utils.DB.Exec("INSERT INTO payments (user_id, amount, description, status) VALUES (?, ?, ?, ?)",
+	result, err := utils.DB.Exec("INSERT INTO payments (user_id, amount, description, status) VALUES (?, ?, ?, ?)",
 		payment.UserID, payment.Amount, payment.Description, models.PaymentSuccess)
 	if err != nil {
-		return err
+		return models.Payment{}, err
+	}
+
+	// Obtener el ID del nuevo pago
+	newPaymentID, err := result.LastInsertId()
+	if err != nil {
+		return models.Payment{}, err
+	}
+
+	// Crear una estructura de Payment con los detalles del nuevo pago
+	newPayment := models.Payment{
+		ID:          int(newPaymentID),
+		UserID:      payment.UserID,
+		Amount:      payment.Amount,
+		Description: payment.Description,
+		Status:      string(models.PaymentSuccess),
 	}
 
 	fmt.Println("Pago procesado exitosamente con Stripe.")
-	return nil
+	return newPayment, nil
 }
 
 // GetPaymentsByUserID devuelve todos los pagos realizados por un usuario específico.

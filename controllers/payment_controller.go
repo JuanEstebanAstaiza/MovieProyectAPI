@@ -20,14 +20,17 @@ func ProcessPaymentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = services.ProcessPayment(payment)
+	pay, err := services.ProcessPayment(payment)
 	if err != nil {
-		http.Error(w, "Error al procesar el pago", http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("Error al procesar el pago: %e", err), http.StatusInternalServerError)
 		return
 	}
 
+	if err = json.NewEncoder(w).Encode(pay); err != nil {
+		http.Error(w, fmt.Sprintf("Error al procesar el pago: %e", err), http.StatusInternalServerError)
+		return
+	}
 	w.WriteHeader(http.StatusCreated)
-	fmt.Fprintf(w, "Pago procesado exitosamente")
 }
 
 // GetPaymentsByUserIDHandler maneja la solicitud para obtener todos los pagos realizados por un usuario.
@@ -36,13 +39,14 @@ func GetPaymentsByUserIDHandler(w http.ResponseWriter, r *http.Request) {
 	userID := params["user_id"]
 
 	payments, err := services.GetPaymentsByUserID(userID)
-	if err == nil {
-		http.Error(w, "Error al obtener los pagos del usuario", http.StatusInternalServerError)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error al obtener los pagos del usuario: %e", err), http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(payments)
+	w.WriteHeader(http.StatusOK)
 }
 
 // UpdatePaymentStatusHandler maneja la solicitud para actualizar el estado de un pago.
